@@ -5,7 +5,7 @@ published: true
 ---
 
 Brief Intro
-===========
+-----------
 
 Apache Commons project offers a rich set of utilities to make developing in Java less tedious. (IMO, it's one of the most useful tool sets out there.) The ComparatorChain class is one such tool. It wraps one or more Comparators in sequence and calls each Comparator in sequence. When sorting is performed, the ComparatorChain calls each Comparator in the order it was added until a Comparator returns a non-zero result or the ComparatorChain is exhausted. It's very much like multi-column sorting in SQL.
 
@@ -15,14 +15,14 @@ A *Comparable* object is used to compare an object with another instance of the 
 
 A *Comparator* object is capable of comparing two objects which can be instances of the same class or instances of separate classes.
 
-As the name suggested, the CompratorChain works with classes that implement the Comparator interface. It relies on the compare() method of the Comparator classes. To get the comparsion going, you need to 
+As the name suggests, the CompratorChain works with classes that implement the Comparator interface. It relies on the compare() method of the Comparator classes. To get the comparsion going, you need to 
 
 1. Create a Comparator class. Instances of the Comparator are added to ComparatorChain.
 2. Use java.util.Collections's sort method to perform the sort.
 
 
 Example
-=======
+-------
 
  I have a result collection of JSON objects. I want to sort the JSON objects by the date field in the descending order, followed by the title field in the ascending order.  The following shows an example search result:
 
