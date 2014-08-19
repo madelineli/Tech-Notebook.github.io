@@ -1,15 +1,15 @@
 ---
 layout: post
-title: "Sorting Java Collection Using Apache Commons Collection's ComparatorChain"
+title: "Muli-Column Sorting Using Apache Commons ComparatorChain"
 published: true
 ---
 
 Brief Intro
 ===========
 
-Apache Commons project offers a rich set of utilities to make developing in Java less tedious. (IMO, it's one of the most useful tool sets out there.) The ComparatorChain class is one such tool. It wraps one or more Comparators in sequence and calls each Comparator in the sequence until a single Comparator returns a non-zeor result or the ComparatorChain is exhausted.
+Apache Commons project offers a rich set of utilities to make developing in Java less tedious. (IMO, it's one of the most useful tool sets out there.) The ComparatorChain class is one such tool. It wraps one or more Comparators in sequence and calls each Comparator in sequence. When sorting is performed, the ComparatorChain calls each Comparator in the order it was added until a Comparator returns a non-zero result or the ComparatorChain is exhausted. It's very much like multi-column sorting in SQL.
 
-First, one needs to know the difference between a Comparator vs. a Comparable. Here is a short description.
+First, one needs to know the difference between a Comparator vs. a Comparable in Java. Here is a short description.
 
 A *Comparable* object is used to compare an object with another instance of the same class. An easier way to remember is to think of how one uses String's equals() method for comparing a string to another string.
 
@@ -41,10 +41,7 @@ Example
        public Static enum Direction {
          asc,
          desc;
- 
-       public String toJson() {
-         return this.toString();
-       }
+
      
        public static Direction fromString(String inDirection) {
          for (Direction direction: values()) {
