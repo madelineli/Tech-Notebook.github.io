@@ -1,4 +1,4 @@
-#
+﻿#
 # This file contains configuration flags to customize your site
 #
 
@@ -7,7 +7,7 @@ name: My Messy Toolbox
 
 
 # Short bio or description (displayed in the header)
-description: “Protypes, code segments, configuration examples -- stuff I have no room in my brain to remember"
+description: “Prototypes, code segments, configuration examples -- stuff I have no room in my brain to remember"
 
 # URL of your avatar or profile pic (you could use your GitHub profile pic)
 #avatar: 
