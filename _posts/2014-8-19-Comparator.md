@@ -161,7 +161,7 @@ Example
     searchSortList.add(new SearchSort("Date", Direction.asc);
     SearchSortList.add(new SearchSort("Title", Direction.asc);
 
-(3) Create a ComparatorChain object for do the comparisons:
+(3) Create a ComparatorChain object to do the comparisons:
 
     org.apache.commons.collections.compartor.ComparatorChain  chain = new org.apache.commons.collections.comparator.ComparatorChain();
 
