@@ -4,65 +4,75 @@ title: "Sorting Java Collection Using Apache Commons Collection's ComparatorChai
 published: true
 ---
 
-Apache Commons project offers a rich set of utilities to make developing in Java less tedious. The ComparatorChain is one such tool. It wraps one or more Comparators in sequence and calls each Comparator is sequence until a single Comparator retruns a non-zeor result or the ComparatorChain is exhausted.
+Brief Intro
+===========
 
-First, one of the more confusing things for me to remember is the difference between a Comparator vs. a Comparable. Here is a short description.
+Apache Commons project offers a rich set of utilities to make developing in Java less tedious. (IMO, it's one of the most useful tool sets out there.) The ComparatorChain class is one such tool. It wraps one or more Comparators in sequence and calls each Comparator in the sequence until a single Comparator returns a non-zeor result or the ComparatorChain is exhausted.
 
-A Comparable object is used to compare the object with another instance of the same class. An easier way to remember is to think of how one uses String's equal() method for comparing the content of a string to another string.
+First, one needs to know the difference between a Comparator vs. a Comparable. Here is a short description.
 
-A Comparator object is capable of comparing two different objects. The class is not comparing its instances, but some other class's instances.
+A *Comparable* object is used to compare an object with another instance of the same class. An easier way to remember is to think of how one uses String's equals() method for comparing a string to another string.
 
-As the name suggested, the CompratorChain works with classes that implement the Comparator interface. It relies on the compare() method of the Comparator classes.
+A *Comparator* object is capable of comparing two objects which can be instances of the same class or instances of separate classes.
 
-Example:  I have a result collection of JSON objects. I want to sort the JSON objects by the date field, followed by the title field.  The following shows an example search result:
+As the name suggested, the CompratorChain works with classes that implement the Comparator interface. It relies on the compare() method of the Comparator classes. To get the comparsion going, you need to 
+
+1. Create a Comparator class. Instances of the Comparator are added to ComparatorChain.
+2. Use java.util.Collections's sort method to perform the sort.
+
+
+Example
+=======
+
+ I have a result collection of JSON objects. I want to sort the JSON objects by the date field in the descending order, followed by the title field in the ascending order.  The following shows an example search result:
 
  
-"results":[
+    "results":[
             { "Id": "1234", "Date": "2014-08-16", "Relevance": "0.2345", "Title": "Trouble in South China Sea"},
             { "Id": "3450", "Date": "2008-09-15", "Relevance": "0.7888", "Title": "Gaza Under Fire"},
             { "Id": "4560", "Date": "2014-08-16", "Relevance": "0.3333", "Title": "Fergusion Riot"}
-          ]
+     ]
 
 
 (1) Create a class to specify Sort crieteria:
 
-public class SearchSort {
+    public class SearchSort {
 
-   public Static enum Direction {
-     asc,
-     desc;
+       public Static enum Direction {
+         asc,
+         desc;
  
-     public String toJson() {
-       return this.toString();
-     }
-     
-     public static Direction fromString(String inDirection) {
-       for (Direction direction: values()) {
-         if (StringUtils.equalsIgnoreCase(inDiection, direction.name())) {
-            return direction;
-         }
+       public String toJson() {
+         return this.toString();
        }
-       return null;
-     }
+     
+       public static Direction fromString(String inDirection) {
+         for (Direction direction: values()) {
+           if (StringUtils.equalsIgnoreCase(inDiection, direction.name())) {
+              return direction;
+           }
+         }
+         return null;
+       }
 
-   private String field;
-   private Direction direction;
+       private String field;
+       private Direction direction;
 
-   public SearchSort() {}
-   public SearchSort(String field, Direction direction) {
-      this.field = field;
-      this.direction = direction;
-   }
-   public setField(String field) { this.field = field;}
-   public String getField() { return this.field; }
-   public setDiriection(Direction dir) { this.direction = dir;}
-   public getDirection() { return this.direction;}
+       public SearchSort() {}
+       public SearchSort(String field, Direction direction) {
+         this.field = field;
+         this.direction = direction;
+       }
+       public setField(String field) { this.field = field;}
+       public String getField() { return this.field; }
+       public setDiriection(Direction dir) { this.direction = dir;}
+       public getDirection() { return this.direction;}
    
-}     
+    }     
 
 (2) Create a class that implements the Comparator interface:
 
-public class searchResultComparator implements Comparator<JsonNode> {
+    public class searchResultComparator implements Comparator<JsonNode> {
 
       private SearchSort searchSort;
 
@@ -146,28 +156,28 @@ public class searchResultComparator implements Comparator<JsonNode> {
            return fals;
        }
 
-}
+    }
 
 (3) Create a collection of searchSort objects for search Criteria:
 
-ArrayList<SearchSort> searchSortList = new ArrayList<SearchSort>)();
-searchSortList.add(new SearchSort("Date", Direction.asc);
-SearchSortList.add(new SearchSort("Title", Direction.asc);
+    ArrayList<SearchSort> searchSortList = new ArrayList<SearchSort>)();
+    searchSortList.add(new SearchSort("Date", Direction.asc);
+    SearchSortList.add(new SearchSort("Title", Direction.asc);
 
 (3) Create a ComparatorChain object for do the comparisons:
 
-org.apache.commons.collections.compartor.ComparatorChain  chain = new org.apache.commons.collections.comparator.ComparatorChain();
+    org.apache.commons.collections.compartor.ComparatorChain  chain = new org.apache.commons.collections.comparator.ComparatorChain();
 
-for (SearchSort searchSort : searchSortList) {
-  try {
-     SearchResultComparator comparator = new SearchResultComparator(searchSort);
-     chain.addComparator(comparator, searchSort.getDirection() == SearchSort.Diection.desc);
-  catch (InvalidSortException ise) {
-     log.error("The SearchSort object is null and cannot be used for sorting.");
-  }
-}
+    for (SearchSort searchSort : searchSortList) {
+      try {
+         SearchResultComparator comparator = new SearchResultComparator(searchSort);
+         chain.addComparator(comparator, searchSort.getDirection() == SearchSort.Diection.desc); // false: ascending order, true: descending order
+      catch (InvalidSortException ise) {
+         log.error("The SearchSort object is null and cannot be used for sorting.");
+      }
+    }
 
-// Now sort the collection! supposed that our results are in a List<JsonNode> results
-Collections.sort(results, chain);  //Collections is part of java.util package.
+    // Now sort the collection! supposed that our results are in a List<JsonNode> results
+    Collections.sort(results, chain);  //Collections is part of java.util package.
 
 
