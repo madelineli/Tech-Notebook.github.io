@@ -158,7 +158,7 @@ Example
 (3) Create a collection of searchSort objects for search Criteria:
 
     ArrayList<SearchSort> searchSortList = new ArrayList<SearchSort>)();
-    searchSortList.add(new SearchSort("Date", Direction.asc);
+    searchSortList.add(new SearchSort("Date", Direction.desc);
     SearchSortList.add(new SearchSort("Title", Direction.asc);
 
 (3) Create a ComparatorChain object to do the comparisons:
@@ -175,6 +175,6 @@ Example
     }
 
     // Now sort the collection! supposed that our results are in a List<JsonNode> results
-    Collections.sort(results, chain);  //Collections is part of java.util package.
+    Collections.sort(results, chain);  //Collections is part of java.utils package.
 
 
